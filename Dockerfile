@@ -9,8 +9,6 @@ RUN tar -xf Python-3.8.2.tar.xz
 RUN cd Python-3.8.2 && pwd && ./configure && make -j 2 && make altinstall && python3.8 --version
 RUN python3.8 -m pip install sklearn protobuf requests
 
-#RUN apt-get install protobuf-compiler
-
 # install docker
 RUN curl -sSL https://get.docker.com/ | sh
 
