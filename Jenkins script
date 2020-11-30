@@ -1,0 +1,29 @@
+pipeline{
+        agent any
+        stages{
+                stage('retrieve docker images'){
+                        steps{
+                                sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                                sh 'docker pull $model_name'
+                        }
+                }
+                stage('create container model'){
+                        steps{
+                                sh 'docker run --name fugazi -d -t -p 3330:3330 $model_name'
+                                sh 'sleep 5'
+                        }
+                }
+                stage('use the model'){
+                        steps{
+                                sh 'python3.8 LaunchTestModel.py'
+                        }
+                }
+                stage('remove docker stuff'){
+                        steps{
+                                sh 'docker stop fugazi'
+                                sh 'docker rm fugazi'
+                                sh 'docker rmi $model_name'
+                        }
+                }
+        }
+}
