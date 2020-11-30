@@ -4,12 +4,8 @@ import sys
 import os
 import sklearn
 
-#sys.path.append("/home/ubuntu/TestModel/")
-
-#sys.path.append(os.environ['WORKSPACE'])
-restURL = "http://localhost:3330/model/methods/classify"
-#restURL = "http://deploy:3330/model/methods/classify"
-
+# 172.17.0.1 is the Gateway adress of Jenkins container, verify yours with docker inspect "jenkins containers" command
+restURL = "http://172.17.0.1:3330/model/methods/classify"
 
 def classify_iris (sl, sw, pl, pw):
             df = pb.IrisDataFrame()
