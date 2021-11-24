@@ -4,12 +4,12 @@ pipeline{
                 stage('retrieve docker images'){
                         steps{
                                 sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                                sh 'docker pull $model_name'
+                                sh 'docker pull $docker_URI'
                         }
                 }
                 stage('create container model'){
                         steps{
-                                sh 'docker run --name fugazi -d -t -p 3330:3330 $model_name'
+                                sh 'docker run --name fugazi -d -t -p 3330:3330 $docker_URI'
                                 sh 'sleep 5'
                                 sh 'docker cp fugazi:/app/model.proto .'
                                 sh 'protoc model.proto --python_out=.'
@@ -24,7 +24,7 @@ pipeline{
                         steps{
                                 sh 'docker stop fugazi'
                                 sh 'docker rm fugazi'
-                                sh 'docker rmi $model_name'
+                                sh 'docker rmi $docker_URI'
                         }
                 }
         }
