@@ -11,6 +11,8 @@ pipeline{
                         steps{
                                 sh 'docker run --name fugazi -d -t -p 3330:3330 $model_name'
                                 sh 'sleep 5'
+                                sh 'docker cp fugazi:/app/model.proto .'
+                                sh 'protoc model.proto --python_out=.'
                         }
                 }
                 stage('use the model'){
